@@ -1,14 +1,13 @@
 class Solution {
-    public int findContentChildren(int[] g, int[] s) {
-        Arrays.sort(g);
-        Arrays.sort(s);
+    public int findContentChildren(int[] greed, int[] cookie) {
+        Arrays.sort(greed);
+        Arrays.sort(cookie);
 
-        int j=0;
-        for(int i=0;i<s.length;i++)
+        int j=0,i=0;
+        while(i<cookie.length && j<greed.length)
         {
-            if(s[i]>=g[j]) // j-th child is content and move ahead
-                j++;
-            if(j==g.length)break;
+            if(greed[j]<=cookie[i]) j++;
+            i++;
         }
         return j;
     }
