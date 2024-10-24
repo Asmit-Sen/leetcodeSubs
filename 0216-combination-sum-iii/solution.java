@@ -1,28 +1,23 @@
 class Solution {
-    void sum( int k, int target, int idx, int sum, List<Integer> list, List<List<Integer>> ans)
+    void f(int k,int n,int cnt, List<Integer> list, List<List<Integer>> ans )
     {
-        if(list.size()==k)
+        if(n==0 && k==0)
         {
-            if(sum==target)
-                ans.add(new ArrayList<>(list));
+            ans.add(new ArrayList<>(list));
             return;
         }
-        if(idx>9 || sum>target)
-        return;
-        //pick current idx
-        list.add(idx);
-        sum+=idx;
-        sum(k,target,idx+1, sum,list, ans);
+        if(k<0) return;
 
-        //not pick idx
-        sum-=idx;
-        list.remove(list.size()-1);
-        sum(k,target,idx+1, sum, list, ans);
-
+        for(int i=cnt;i<10;i++)
+        {
+            list.add(i);
+            f(k-1,n-i,i+1,list,ans);
+            list.remove(list.size()-1);
+        }
     }
     public List<List<Integer>> combinationSum3(int k, int n) {
-        List<List<Integer>> ans=new ArrayList<List<Integer>>();
-        sum(k,n,1,0,new ArrayList<>(), ans);
+        List<List<Integer>> ans=new ArrayList<>();
+        f(k,n,1,new ArrayList<>(), ans);
         return ans;
     }
 }
