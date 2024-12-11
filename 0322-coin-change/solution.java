@@ -2,8 +2,15 @@ class Solution {
     int f(int coins[],int i, int amount, int dp[][])
     {
 
-        if(amount==0) return 0;// no more coins needed 
-        if(i<0) return (int)1e9; 
+        // if(amount==0) return 0;// no more coins needed 
+        // if(i<0) return (int)1e9; 
+        if(amount==0) return 0;
+        if(i==0)
+        {
+            if(amount%coins[i]==0)
+            return amount/coins[i];
+            return (int)1e9;
+        }
 
         if(dp[i][amount]!=-1)
         return dp[i][amount];
@@ -18,12 +25,16 @@ class Solution {
         int dp[][]=new int[coins.length][amount+1];
         for(int row[]:dp)
         Arrays.fill(row,-1);
+
+        // int ans=f(coins,coins.length-1,amount,dp);
+        // if(ans>=(int)1e9) return -1;
+        // return ans;
         
         for(int j=0;j<=amount;j++)
         dp[0][j]=(j%coins[0]==0)?j/coins[0]:(int)1e9; //if only a single coin available, check if divisible
 
         for(int i=0;i<coins.length;i++)
-        dp[i][0]=0;//base case
+        dp[i][0]=0;// if amt=0, no coins needed
 
         
         for(int i=1;i<coins.length;i++)
