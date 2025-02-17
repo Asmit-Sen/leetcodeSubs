@@ -9,18 +9,16 @@
  */
 
 class Solution {
-    TreeNode dfs(TreeNode root, TreeNode p, TreeNode q)
+    TreeNode f(TreeNode root,TreeNode p,TreeNode q)
     {
-        if(p.val<root.val && q.val<root.val)
-        return dfs(root.left,p,q);
-        else if(p.val>root.val && q.val>root.val)
-        return dfs(root.right,p,q);
+        if(root==null) return root;
+
+        if(p.val<root.val && q.val<root.val) return f(root.left,p,q);
+        else if(p.val>root.val && q.val>root.val) return f(root.right,p,q);
 
         return root;
     }
-
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if(root==null) return null;
-        return dfs(root,p,q);
+        return f(root,p,q);
     }
 }
