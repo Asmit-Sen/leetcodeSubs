@@ -14,12 +14,12 @@
  * }
  */
 class Solution {
-    boolean dfs(TreeNode root, double lb, double ub)
+    boolean dfs(TreeNode root, Double lb, Double ub)
     {
         if(root==null) return true;
-        return (root.val>lb && root.val<ub && dfs(root.left,lb,root.val) && dfs(root.right,root.val,ub));
+        return (lb<root.val && root.val<ub && dfs(root.left,lb,(double)root.val) && dfs(root.right,(double)root.val,ub));
     }
     public boolean isValidBST(TreeNode root) {
-        return dfs(root,Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        return dfs(root,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
     }
 }
