@@ -14,23 +14,20 @@
  * }
  */
 class Solution {
-    void dfs(TreeNode root , int ans[], int k[])
+    void dfs(TreeNode root, int k[], int ans[])
     {
         if(root==null) return;
-        
-        dfs(root.left,ans,k);
+
+        dfs(root.left,k,ans);
+        // process
         k[0]--;
-        if(k[0]==0)
-        {
-            ans[0]=root.val;
-            return;
-        }
-        dfs(root.right,ans,k);
+        if(k[0]==0) ans[0]=root.val;
+        dfs(root.right,k,ans);
     }
     public int kthSmallest(TreeNode root, int k) {
-        int ans[]={-1};
-        int t[]={k};
-        dfs(root,ans,t);
+        int ans[]={0};
+        int cnt[]={k};
+        dfs(root,cnt,ans);
         return ans[0];
     }
 }
