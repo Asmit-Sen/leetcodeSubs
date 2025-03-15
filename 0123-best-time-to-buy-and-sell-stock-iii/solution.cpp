@@ -15,17 +15,17 @@ int f(int i, int buy, int cap, vector<int> &prices, vector<vector<vector<int>>> 
         int n=prices.size();
         vector<vector<vector<int>>> dp(n+1, vector<vector<int>>(2, vector<int>(3,0)));
 
-        for(int i=0;i<=n;i++)
-        {
-            for(int buy=0;buy<=1;buy++)
-            {
-                for(int cap=0;cap<=2;cap++)
-                {
-                    if(cap==0 || i==n)
-                    dp[i][buy][cap]=0;
-                }
-            }
-        }
+        // for(int i=0;i<=n;i++)
+        // {
+        //     for(int buy=0;buy<=1;buy++)
+        //     {
+        //         for(int cap=0;cap<=2;cap++)
+        //         {
+        //             if(cap==0 || i==n)
+        //             dp[i][buy][cap]=0;
+        //         }
+        //     }
+        // }
 
         for(int i=n-1;i>=0;i--)
         {
