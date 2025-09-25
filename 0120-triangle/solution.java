@@ -1,39 +1,18 @@
 class Solution {
-    int path( int i,int j, List<List<Integer>> list, int dp[][])
-    {
-        if(i==list.size()-1) return list.get(i).get(j);
-        if(dp[i][j]!=-1) return dp[i][j];// memo
-        
-        int d=list.get(i).get(j)+ path(i+1,j,list,dp);
-        int dr=list.get(i).get(j)+path(i+1,j+1,list,dp);
-        return dp[i][j]=(int)Math.min(d,dr);//memo
-    }
-    public int minimumTotal(List<List<Integer>> list) {
-        // int dp[][]=new int[list.size()-1][list.size()-1];
-        // for(int row[]:dp)
-        // Arrays.fill(row,-1);//memo
-        
-        // return path(0,0,list,dp);
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n=triangle.get(triangle.size()-1).size();
+        // int prev[]=new int[n];
+        int curr[]=new int[n];
 
-        int n=list.size();
-        int dp[][]=new int[n][n];
+        for(int i=0;i<n;i++)
+        curr[i]=triangle.get(n-1).get(i);
 
-        if(n==1) return list.get(0).get(0);
-        
-        //base case is the last row
-        for(int j=0;j<n;j++)
-        {
-            dp[n-1][j]=list.get(n-1).get(j);
-        }
-        for(int i=n-2;i>=0;i--) 
-        {
-            for(int j=i;j>=0;j--)
-            {
-                int d=list.get(i).get(j)+ dp[i+1][j];
-                int dr=list.get(i).get(j)+dp[i+1][j+1];
-                dp[i][j]=(int)Math.min(d,dr);
+        for(int i=n-2;i>=0;i--){
+            for(int j=0;j<triangle.get(i).size();j++){
+                curr[j]=(int)Math.min(curr[j],curr[j+1])+triangle.get(i).get(j);
             }
         }
-        return dp[0][0];
+        
+        return curr[0];
     }
 }
