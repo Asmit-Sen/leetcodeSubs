@@ -1,43 +1,67 @@
+import java.util.*;
+
 class Solution {
     public int countPaths(int n, int[][] roads) {
-        List<List<int[]>> adj= new ArrayList<>();
-        for(int i=0;i<n;i++)
-        adj.add(new ArrayList<>());
+        // A modulo constant for calculations
+        long MOD = 1_000_000_007;
 
-        for(int time[]: roads){
-            int u=time[0], v=time[1], price=time[2];
-            adj.get(u).add(new int[]{v,price});
-            adj.get(v).add(new int[]{u,price});
+        // Adjacency list to store {neighbor, time}
+        List<List<long[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
         }
 
-        PriorityQueue<long[]> pq= new PriorityQueue<>(Comparator.comparingLong(a->a[0]));
-        long dist[]=new long[n];
-        long paths[]=new long[n];
-        Arrays.fill(dist,Long.MAX_VALUE);
-        Arrays.fill(paths,0);
-        
-        pq.offer(new long[]{0,0});
-        dist[0]=0;
-        paths[0]=1;
-        long mod=(long)1e9+7;
+        for (int[] road : roads) {
+            int u = road[0];
+            int v = road[1];
+            int time = road[2];
+            adj.get(u).add(new long[]{v, time});
+            adj.get(v).add(new long[]{u, time});
+        }
 
-        while(!pq.isEmpty()){
-            long timeTillNow=pq.peek()[0];
-            int cur=(int)pq.peek()[1];
-            pq.poll();
+        // Priority queue to store {distance, node}
+        // Using Long.compare for safe comparison of long values
+        PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
+        pq.offer(new long[]{0, 0}); // {distance, node}
 
-            for(int it[]: adj.get(cur)){
-                int nbr=it[0];
-                int time=it[1];
-                if(timeTillNow+time<dist[nbr]){
-                    paths[nbr]=paths[cur];
-                    dist[nbr]=timeTillNow+time;
-                    pq.offer(new long[]{dist[nbr],nbr});
+        // 'dist' array to store the shortest time from node 0
+        long[] dist = new long[n];
+        Arrays.fill(dist, Long.MAX_VALUE);
+        dist[0] = 0;
+
+        // 'ways' array to store the number of shortest paths
+        long[] ways = new long[n];
+        ways[0] = 1;
+
+        while (!pq.isEmpty()) {
+            long[] current = pq.poll();
+            long time = current[0];
+            int node = (int) current[1];
+
+            // If we found a longer path to the current node, skip it
+            if (time > dist[node]) {
+                continue;
+            }
+
+            for (long[] neighbor : adj.get(node)) {
+                int adjNode = (int) neighbor[0];
+                long edgeTime = neighbor[1];
+
+                // If we found a new shorter path to the neighbor
+                if (time + edgeTime < dist[adjNode]) {
+                    dist[adjNode] = time + edgeTime;
+                    ways[adjNode] = ways[node]; // Inherit the number of ways
+                    pq.offer(new long[]{dist[adjNode], adjNode});
+                } 
+                // If we found another path of the same shortest length
+                else if (time + edgeTime == dist[adjNode]) {
+                    // Add the number of ways from the current path
+                    ways[adjNode] = (ways[adjNode] + ways[node]) % MOD;
                 }
-                else if(timeTillNow+time==dist[nbr]) 
-                paths[nbr]=(paths[nbr]+paths[cur])%mod;
             }
         }
-        return (int)paths[n-1];
+
+        // Return the number of ways to reach the last node (n-1)
+        return (int) (ways[n - 1] % MOD);
     }
 }
