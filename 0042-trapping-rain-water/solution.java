@@ -1,32 +1,32 @@
 class Solution {
-    public int trap(int[] arr) {
-    // water[i]=min(maxL,maxR)-arr[i];
-    int water=0, n=arr.length;
-    int left=0,right=n-1,maxL=0,maxR=0;
-    while(left<right)
-    {
-        if(arr[left]<arr[right])
-        {
-            // left water calc with maxL
-            if(maxL>arr[left])
-            water+=maxL-arr[left];
+    public int trap(int[] height) {
+        int lmax=0, rmax=0, ans=0;
+        int l=0, r=height.length-1;
+        while(l<=r){
+            if(height[l]<=height[r]){
+                //then height[r] serves as my right boundary
+                //process water above me based on lmax
+
+                if(lmax>height[l])
+                ans+=lmax-height[l];
+                else
+                lmax=(int)Math.max(lmax,height[l]);
+
+                l++;
+            }
             else
-            maxL=arr[left];
-            left++;
+            {
+                //then height[l] serves as my left boundary
+                //process water above me based on rmax
+
+                if(rmax>height[r])
+                ans+=rmax-height[r];
+                else
+                rmax=(int)Math.max(rmax,height[r]);
+
+                r--;
+            }
         }
-        else
-        {
-            if(maxR>arr[right])
-            water+=maxR-arr[right];
-            else
-            maxR=arr[right];
-            right--;
-        }       
-    }
-    return water;
+        return ans;
     }
 }
-
-
-
-
