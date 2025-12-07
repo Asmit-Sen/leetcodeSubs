@@ -17,5 +17,6 @@ jobs:
         uses: dos-m0nk3y/LeetCode-Synchronizer@v1.1.0
         with:
           GITHUB_TOKEN: ${{ github.token }}
+          LANGUAGE_MAP: '{"Java": "java"}'
           LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
           LEETCODE_CSRF_TOKEN: ${{ secrets.LEETCODE_CSRF_TOKEN }}
