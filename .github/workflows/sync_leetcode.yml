@@ -1,0 +1,21 @@
+name: LeetCode Synchronizer
+
+on:
+  workflow_dispatch:
+  # Optional: uncomment the 'schedule' block to run automatically at a specific time (e.g., once a week on Saturday at 8 AM UTC)
+  schedule:
+    - cron: "0 8 * * 6"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run LeetCode Synchronizer
+        uses: dos-m0nk3y/LeetCode-Synchronizer@v1.1.0
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+          LEETCODE_CSRF_TOKEN: ${{ secrets.LEETCODE_CSRF_TOKEN }}
