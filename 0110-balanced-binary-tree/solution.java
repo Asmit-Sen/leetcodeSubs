@@ -14,19 +14,17 @@
  * }
  */
 class Solution {
-    int maxi=0;
-    int foo(TreeNode root){
+    int max=0;
+    int dfs(TreeNode root){
         if (root==null) return 0;
+        int l = dfs(root.left);
+        int r = dfs(root.right);
 
-        int left = foo(root.left);
-        int right = foo(root.right);
-        int d = left - right;
-        maxi=(int)Math.max(maxi, (int)Math.abs(d));
-
-        return 1+(int)Math.max(left,right);
+        max=(int)Math.max(max, (int)Math.abs(l-r));
+        return (int)Math.max(l,r)+1;
     }
     public boolean isBalanced(TreeNode root) {
-        foo(root);
-        return maxi<=1;
+        dfs(root);
+        return !(max>1); 
     }
 }
