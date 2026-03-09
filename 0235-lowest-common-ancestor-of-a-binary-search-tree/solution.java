@@ -9,17 +9,15 @@
  */
 
 class Solution {
-    TreeNode foo(TreeNode root, TreeNode p, TreeNode q){
-        if(root == null) return root;
+    TreeNode dfs(TreeNode root, TreeNode p, TreeNode q){
+        if (root.val==p.val || root.val==q.val) return root;
 
-        if (root.val > p.val && root.val > q.val) 
-        return foo(root.left,p,q);
-        else if (root.val < p.val && root.val < q.val) 
-        return foo(root.right,p,q);
-
+        if (p.val<root.val && q.val<root.val) return dfs(root.left, p, q);
+        if (p.val>root.val && q.val>root.val) return dfs(root.right, p, q);
+ 
         return root;
     }
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        return foo(root, p, q);
+        return dfs(root, p, q);
     }
 }
