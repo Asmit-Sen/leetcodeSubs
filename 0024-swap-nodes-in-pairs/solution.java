@@ -9,19 +9,21 @@
  * }
  */
 class Solution {
-    ListNode rev(ListNode cur, ListNode prev, int n){
-        if(cur==null) return null;
+    ListNode swap(ListNode head, int n, ListNode prev){
+        if (head==null) return head;
 
-        ListNode head_front=rev(cur.next, cur, n+1);
+        ListNode nextNode = swap(head.next, n+1, head);
 
-        if(n%2==0){
-            cur.next=prev;
-            prev.next=head_front;
-            return cur;
+        if (n%2==0){
+            // reverse the pair
+            prev.next = nextNode;
+            head.next = prev;
+            return head;
         }
-        return head_front==null?cur:head_front;
+
+        return nextNode==null ? head : nextNode;
     }
     public ListNode swapPairs(ListNode head) {
-        return rev(head, null,1);
+        return swap(head,1,new ListNode(-1));
     }
 }
