@@ -9,75 +9,24 @@
  * }
  */
 class Solution {
-    public boolean isPalindrome(ListNode head) {
-        // if(head==null || head.next==null) return true;
-        // if(head.next.next==null)
-        // {
-        //     return (head.val==head.next.val)?true:false;
-        // }
-        // Stack <Integer> stack =new Stack<>();
-        // ListNode temp=head;
-        // while(temp!=null)
-        // {
-        //     stack.push(temp.val);
-        //     temp=temp.next;
-        // }
+    boolean ans = true;
+    int c2=0;
+    void f(ListNode node, int c1, int start[]){
+        if (node==null) return;
+        
+        start[c1]=node.val;
 
-        // temp=head;
-        // while(temp!=null)
-        // {
-        //     if(stack.peek()==temp.val)
-        //     {
-        //         temp=temp.next;
-        //         stack.pop();
-        //     }
-        //     else return false;
-        // }
-        // return true;
+        f(node.next, c1+1, start);
 
-
-
-
-        if(head==null || head.next==null) return true;
-        if(head.next.next==null)
-        {
-            return (head.val==head.next.val)?true:false;
+        c2++;
+        if (start[c2]!=node.val) {
+            ans = false;
+            return;
         }
-
-        ListNode slow=head,fast=head.next;
-        while(fast.next!=null && fast.next.next!=null)
-        {
-            slow=slow.next;
-            fast=fast.next.next;
-        }
-
-        ListNode newHead=reverse(slow.next); // head of l2 = reversed second half
-        ListNode l1=head,l2=newHead;
-
-        while(l2!=null)
-        {
-            if(l1.val!=l2.val) 
-            {
-                newHead=reverse(newHead); //reverse the second half to original
-                return false;
-            }
-            l1=l1.next;
-            l2=l2.next;
-        }
-        newHead=reverse(newHead); //reverse the second half to original
-        return true;       
-
     }
-    ListNode reverse(ListNode head)
-    {
-        ListNode temp=head,prev=null;
-        while(temp!=null)
-        {
-            ListNode front=temp.next;
-            temp.next=prev;
-            prev=temp;
-            temp=front;
-        }
-        return prev;
+    public boolean isPalindrome(ListNode head) {
+        int start[]=new int[(int)1e5+1];
+        f(head, 1, start);
+        return ans;
     }
 }
