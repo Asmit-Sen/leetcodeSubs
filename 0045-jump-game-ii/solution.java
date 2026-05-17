@@ -1,37 +1,26 @@
 class Solution {
-    // int jump(int arr[], int idx, int jump, int dp[][])
-    // {
-    //     if(idx>=arr.length-1) return jump;
+    int f (int i, int nums[], int dp[]){
+        if (i==nums.length-1) return 0;
+        if (dp[i]!=-1) return dp[i];
 
-    //     if(dp[idx][jump]!=-1)
-    //     return dp[idx][jump];
+        int mini = (int)1e6;
+        for(int j=1;j<=nums[i];j++)
+            if ((i+j) < nums.length) mini = Math.min( mini, 1 + f(i+j,nums, dp));
 
-    //     int mini=Integer.MAX_VALUE;
-    //     for(int i=1;i<=arr[idx];i++)
-    //     {
-    //         mini=(int)Math.min(mini,jump(arr,idx+i,jump+1,dp));
-    //     }
-    //     return dp[idx][jump]=mini;
-    // }
-    // public int jump(int[] nums) {
-    //     int n=nums.length;
-    //     int dp[][]=new int[n][n];
-    //     for(int row[]:dp)
-    //     Arrays.fill(row,-1);
+        return dp[i] = mini;
+    }
+    public int jump(int[] nums) {
+        int n = nums.length;
+        int dp[]=new int[n];
+        Arrays.fill(dp, (int)1e6);
 
-    //     return jump(nums, 0, 0, dp);
-    // }
-    public int jump(int[] arr) {
-
-        int jumps=0,l=0,r=0,n=arr.length;
-        while(r<n-1){
-            int maxi=0;
-            for(int i=l;i<=r;i++)
-                maxi=(int)Math.max(maxi,i+arr[i]);
-            l=r+1;
-            r=maxi;
-            jumps++;
+        dp[n-1]=0;
+        for(int i=n-2;i>=0;i--){
+            for(int j=1;j<=nums[i];j++){
+                if (i+j<n) dp[i] = Math.min(dp[i], 1 + dp[i+j]);
+            }
         }
-        return jumps;
+
+        return dp[0];
     }
 }
