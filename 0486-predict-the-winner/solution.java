@@ -1,27 +1,17 @@
 class Solution {
-    boolean f(int l, int r, int turn, int a, int b, int nums[]){
-        if (l>r) return a>=b;
+    Integer f(int l, int r, int nums[], Integer dp[][]){
+        if (l==r) return nums[l];
+        if (dp[l][r]!=null) return dp[l][r];
 
-        boolean x = false, y = false;
+        int left = nums[l] - f(l+1, r, nums, dp);
+        int right = nums[r] - f(l, r-1, nums, dp);
 
-        if (turn==0){
-            // a takes left
-             x = f(l+1, r, 1, a+nums[l], b, nums);
-            // a takes right
-             y = f(l, r-1, 1, a+nums[r], b, nums);
-             
-            return x | y;
-        }
-        else {
-            // b takes left
-             x = f(l+1, r, 0, a, b+nums[l], nums);
-            // a takes right
-             y = f(l, r-1, 0, a, b+nums[r], nums);
-             
-            return x & y;
-        }
+        return dp[l][r]=Math.max(left, right);
     }
     public boolean predictTheWinner(int[] nums) {
-        return f(0, nums.length-1, 0, 0, 0, nums);
+        int n = nums.length;
+        Integer dp[][] = new Integer[n][n];
+
+        return f(0, n-1, nums, dp) >= 0;
     }
 }
